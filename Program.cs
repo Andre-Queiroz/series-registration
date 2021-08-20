@@ -4,6 +4,7 @@ namespace series_registration
 {
     class Program
     {
+        static SerieRepository repository = new SerieRepository();
         static void Main(string[] args)
         {
             string option;
@@ -13,10 +14,10 @@ namespace series_registration
                 switch (option)
                 {
                     case "1":
-                        //ListSeries();
+                        ListSeries();
                         break;
                     case "2":
-                        //AddSerie();
+                        AddSerie();
                         break;
                     case "3":
                         //UpdateSerie();
@@ -53,6 +54,65 @@ namespace series_registration
 
             return Console.ReadLine().Trim().ToUpper();
         }
+
+        private static void ListSeries()
+        {
+            Console.WriteLine("\nSeries List:");
+            var list = repository.List();
+
+            if (list.Count == 0)
+            {
+                Console.WriteLine("There are no registered series");
+                return;
+            }
+
+            foreach (Serie serie in list)
+            {
+                Console.WriteLine("\n\tId: " + serie.GetId());
+                Console.WriteLine("\tTitle: " + serie.GetTitle());
+            }
+        }
+
+        private static void AddSerie()
+        {
+            Console.WriteLine("\nAdd new serie:");
+
+            foreach (int i in Enum.GetValues(typeof(Genre)))
+            {
+                Console.WriteLine($"{i} - {Enum.GetName(typeof(Genre), i)}");
+            }
+
+            Console.WriteLine("\nEnter the genre:");
+            int genre = int.Parse(Console.ReadLine());
+
+            Console.WriteLine("\nEnter the title:");
+            string title = Console.ReadLine();
+
+            Console.WriteLine("\nEnter the description:");
+            string description = Console.ReadLine();
+
+            Console.WriteLine("\nEnter the year:");
+            int year = int.Parse(Console.ReadLine());
+
+
+            Serie newSerie = new Serie(repository.GetNextId(), (Genre)genre, title, description, year);
+            repository.Add(newSerie);
+        }
+
+        private static void UpdateSerie()
+        {
+
+        }
+
+        private static void DeleteSerie()
+        {
+
+        }
+
+        //private static Serie ViewSerie()
+        //{
+        //
+        //}
 
 
 
