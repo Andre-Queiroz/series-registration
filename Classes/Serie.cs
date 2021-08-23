@@ -20,7 +20,13 @@
 
         public override string ToString()
         {
-            return base.ToString();
+            string info = $"\tTitle:\t\t{this.Title}\n";
+            info += $"\tGenre:\t\t{this.Genre}\n";
+            info += $"\tDescription:\t{this.Description}\n";
+            info += $"\tYear:\t\t{this.Year}\n";
+            info += $"\tDeleted? :\t{this.Deleted}\n";
+
+            return info;
         }
 
         public int GetId()
@@ -36,6 +42,11 @@
         public void MarkAsDeleted()
         {
             this.Deleted = true;
+        }
+
+        public bool GetDeleted()
+        {
+            return this.Deleted;
         }
     }
 }

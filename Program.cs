@@ -20,13 +20,13 @@ namespace series_registration
                         AddSerie();
                         break;
                     case "3":
-                        //UpdateSerie();
+                        UpdateSerie();
                         break;
                     case "4":
-                        //DeleteSerie();
+                        DeleteSerie();
                         break;
                     case "5":
-                        //ViewSerie();
+                        ViewSerie();
                         break;
                     case "C":
                         Console.Clear();
@@ -70,6 +70,10 @@ namespace series_registration
             {
                 Console.WriteLine("\n\tId: " + serie.GetId());
                 Console.WriteLine("\tTitle: " + serie.GetTitle());
+                if (serie.GetDeleted())
+                {
+                    Console.WriteLine("\t*Deleted*\n");
+                }
             }
         }
 
@@ -101,18 +105,48 @@ namespace series_registration
 
         private static void UpdateSerie()
         {
+            Console.WriteLine("Enter the series id:");
+            int id = int.Parse(Console.ReadLine());
 
+            foreach (int i in Enum.GetValues(typeof(Genre)))
+            {
+                Console.WriteLine($"{i} - {Enum.GetName(typeof(Genre), i)}");
+            }
+
+            Console.WriteLine("\nEnter the genre:");
+            int genre = int.Parse(Console.ReadLine());
+
+            Console.WriteLine("\nEnter the title:");
+            string title = Console.ReadLine();
+
+            Console.WriteLine("\nEnter the description:");
+            string description = Console.ReadLine();
+
+            Console.WriteLine("\nEnter the year:");
+            int year = int.Parse(Console.ReadLine());
+
+            Serie updatedSerie = new Serie(id, (Genre)genre, title, description, year);
+
+            repository.Update(id, updatedSerie);
         }
 
         private static void DeleteSerie()
         {
+            Console.WriteLine("Enter the series id:");
+            int id = int.Parse(Console.ReadLine());
 
+            repository.Delete(id);
         }
 
-        //private static Serie ViewSerie()
-        //{
-        //
-        //}
+        private static void ViewSerie()
+        {
+            Console.WriteLine("Enter the series id:");
+            int id = int.Parse(Console.ReadLine());
+
+            Serie serie = repository.GetById(id);
+            Console.WriteLine(serie);
+
+        }
 
 
 
